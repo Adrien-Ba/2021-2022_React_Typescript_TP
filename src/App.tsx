@@ -2,14 +2,21 @@ import { useState } from 'react';
 import { faker } from '@faker-js/faker';
 import { TodoItem } from './TodoItem';
 import { nanoid } from 'nanoid';
+import { ReactElement } from 'react';
 
-const generateFakeTodoItem = () => ({
+interface TodoItem {
+  label: string;
+  status: string;
+  id: string;
+}
+
+const generateFakeTodoItem = (): TodoItem => ({
   label: faker.hacker.phrase(),
   status: faker.random.arrayElement(['open', 'done', 'archived']),
   id: nanoid(),
 });
 
-const generateNTodo = (size) => {
+const generateNTodo = (size:number): TodoItem[] => {
   return Array.from(Array(size).keys()).map(generateFakeTodoItem);
 };
 
@@ -32,10 +39,10 @@ const initialList = [
   ...generateNTodo(10),
 ];
 
-function App() {
+function App(): ReactElement {
   const [todoList, setTodoList] = useState(initialList);
 
-  const updater = (id, newStatus) => {
+  const updater = (id:string, newStatus:string) => {
     setTodoList((oldList) =>
       oldList.map((it) => {
         if (it.id !== id) {
@@ -57,7 +64,7 @@ function App() {
             key={item.id}
             label={item.label}
             status={item.status}
-            onChecked={(newState) => updater(item.id, newState)}
+            onChecked={(newState: string) => updater(item.id, newState)}
           />
         ))}
       </div>

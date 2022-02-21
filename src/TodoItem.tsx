@@ -1,6 +1,14 @@
 import clsx from 'clsx';
+import { ReactElement } from 'react';
 
-export const TodoItem = ({ status, label, onChecked }) => {
+interface TodoItem {
+  label: string;
+  status: string;
+  onChecked: (newState: string) => void;
+}
+
+
+export const TodoItem = ({ status, label, onChecked }: TodoItem ): ReactElement => {
   return (
     <div
       className={clsx('p-4 flex items-center', {
